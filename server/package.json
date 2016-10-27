@@ -11,6 +11,7 @@
     "build": "./node_modules/.bin/babel src --out-dir lib --source-maps",
     "watch": "./node_modules/.bin/babel src --out-dir lib --source-maps --watch",
     "prepublish": "npm run build",
+    "postinstall": "npm run build",
     "start": "node ."
   },
   "author": "Charlie Cheever <ccheever@gmail.com>",

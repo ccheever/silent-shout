@@ -48,15 +48,20 @@ app.get('/users', (req, res) => {
 });
 
 export function addUser(props) {
-  let {id, name, photoUrl} = props;
-  let user = {id, name, photoUrl};
+  let user = {...props};
+  DATA.USERS[user.id] = user;
+  return user;
+}
+
+export function updateUser(props) {
+  let user = DATA.USERS[props.id] || {};
+  user = {...user, ...props};
   DATA.USERS[user.id] = user;
   return user;
 }
 
 export function addPost(props) {
-  let {id, userId, message} = props;
-  let post = {id, userId, message};
+  let post = {...props};
   post.postTime = Date.now();
   DATA.POSTS[post.id] = post;
   DATA.LIST_OF_POSTS.unshift(post);
@@ -70,6 +75,11 @@ app.all('/create_user', (req, res) => {
 app.all('/create_post', (req, res) => {
   let post = addPost(req.query);
   res.send(JSON.stringify(post));
+});
+
+app.all('/update_user', (req, res) => {
+  let user = updateUser(req.query);
+  res.send(JSON.stringify(user));
 });
 
 export async function startAsync(port) {
